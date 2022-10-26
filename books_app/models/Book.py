@@ -18,3 +18,22 @@ class Book:
     def get_all_books(cls):
         query = 'SELECT * FROM books'
         return connectToMySQL('books_python').query_db(query)
+
+    @classmethod
+    def get_single_book(cls, data):
+        query = 'SELECT title FROM books WHERE id = %(id)s;'
+        return connectToMySQL('books_python').query_db(query, data)
+
+    @classmethod
+    def get_book_favorites(cls, data):
+        query = 'SELECT * FROM books JOIN favorites ON favorites.books_id = books.id LEFT JOIN authors ON authors.id = favorites.authors_id WHERE books.id = %(id)s;'
+        results = connectToMySQL('books_python').query_db(query, data)
+        fav_authors = []
+        for fav_author in results:
+            print(fav_author)
+            author = {
+                'name':fav_author['name'],
+                'id':fav_author['books_id']
+            }
+            fav_authors.append(author)
+        return fav_authors

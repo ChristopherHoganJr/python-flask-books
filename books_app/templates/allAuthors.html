@@ -35,7 +35,7 @@
             <tbody>
               {% for author in all_authors %}
               <tr>
-                <td>{{author.name}}</td>
+                <td><a href="/authors/{{author.id}}">{{author.name}}</a></td>
               </tr>
               {% endfor %}
             </tbody>
